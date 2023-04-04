@@ -22,7 +22,6 @@ function initMap() {
 
 function initMap2() {
   var {Map, places} = google.maps;
-  console.log(google.maps)
 
   var map2 = new Map(document.getElementById("map2"), {
     center: { lat: -32.397, lng: 152.644},
@@ -42,4 +41,17 @@ function initMap2() {
   });
 }
 
+function getTicketmaster () {
+    var apiUrl = "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=1f2AwjK2AAERSzyWIP5MWX9nLRXGFLGZ"
+    
+    fetch (apiUrl) 
+        .then (function (response){
+            return response.json ()
+        })
+        .then (function (data){
+            console.log (data)
+        }) 
+    
+}
+getTicketmaster ()
 
