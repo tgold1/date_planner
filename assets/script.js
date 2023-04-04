@@ -38,32 +38,3 @@ function initMap2() {
 }
 
 
-
-// function initMap() {
-//   var {Map, places} = google.maps;
-
-//   var map2 = new Map(document.getElementById("map2"), {
-//     center: { lat: -34.397, lng: 150.644 },
-//     zoom: 8,
-//   });
-
-//   var searchInput = document.getElementById("search");
-//   var autocomplete = new places.Autocomplete(searchInput);
-
-//   autocomplete.addListener("place_changed", () => {
-//     var place = autocomplete.getPlace();
-//     if (place.geometry) {
-//       map2.panTo(place.geometry.location);
-//       map2.setZoom(10);
-
-//       new google.maps.Marker({
-//         position: myLatLng,
-//         map2,
-//         title: "Hello World!",
-//       });
-//     }
-    
-//     window.initMap = initMap;
-    
-//   });
-// }
