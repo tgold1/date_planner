@@ -27,6 +27,9 @@ function initMap2() {
     zoom: 10,
   });
 
+  var searchInput = document.getElementById("search");
+  var autocomplete = new places.Autocomplete(searchInput);
+
   autocomplete.addListener("place_changed", () => {
     var place = autocomplete.getPlace();
     if (place.geometry) {
