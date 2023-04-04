@@ -1,3 +1,4 @@
+
 function initMap() {
   var {Map, places} = google.maps;
 
@@ -6,7 +7,7 @@ function initMap() {
     zoom: 8,
   });
 
-  var searchInput = document.getElementById("search");
+  var searchInput = document.getElementById("search-1");
   var autocomplete = new places.Autocomplete(searchInput);
 
   autocomplete.addListener("place_changed", () => {
@@ -21,13 +22,14 @@ function initMap() {
 
 function initMap2() {
   var {Map, places} = google.maps;
+  console.log(google.maps)
 
   var map2 = new Map(document.getElementById("map2"), {
     center: { lat: -32.397, lng: 152.644},
-    zoom: 10,
+    zoom: 8,
   });
 
-  var searchInput = document.getElementById("search");
+  var searchInput = document.getElementById("search-2");
   var autocomplete = new places.Autocomplete(searchInput);
 
   autocomplete.addListener("place_changed", () => {
@@ -36,7 +38,7 @@ function initMap2() {
       map2.panTo(place.geometry.location);
       map2.setZoom(15);
     }
-    window.initMap = initMap;
+    window.initMap2 = initMap2;
   });
 }
 

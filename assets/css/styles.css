@@ -14,7 +14,14 @@
   float: left;
 }
 
-#search {
+#search-1 {
+  margin: 10px;
+  padding: 10px;
+  width: 300px;
+  font-size: 16px;
+}
+
+#search-2 {
   margin: 10px;
   padding: 10px;
   width: 300px;
