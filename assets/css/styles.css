@@ -20,6 +20,10 @@
   font-size: 16px;
 }
 
+#button {
+  color: red;
+}
+
 html,
 body {
   height: 50%;
