@@ -1,3 +1,4 @@
+
 function initMap() {
   var {Map, places} = google.maps;
 
