@@ -121,16 +121,16 @@ function showEvents(json) {
   }
   
   
-  function initMap(position, json) {
-    var mapDiv = document.getElementById('map');
-    var map = new google.maps.Map(mapDiv, {
-      center: {lat: position.coords.latitude, lng: position.coords.longitude},
-      zoom: 10
-    });
-    for(var i=0; i<json.page.size; i++) {
-      addMarker(map, json._embedded.events[i]);
-    }
-  }
+  // function initMap(position, json) {
+  //   var mapDiv = document.getElementById('map');
+  //   var map = new google.maps.Map(mapDiv, {
+  //     center: {lat: position.coords.latitude, lng: position.coords.longitude},
+  //     zoom: 10
+  //   });
+  //   for(var i=0; i<json.page.size; i++) {
+  //     addMarker(map, json._embedded.events[i]);
+  //   }
+  // }
   
   function addMarker(map, event) {
     var marker = new google.maps.Marker({
