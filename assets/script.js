@@ -70,7 +70,7 @@ function showPosition(position) {
 
     $.ajax({
       type:"GET",
-      url:"https://app.ticketmaster.com/discovery/v2/events.json?apikey=pLOeuGq2JL05uEGrZG7DuGWu6sh2OnMz&latlong="+latlon,
+      url:"https://app.ticketmaster.com/discovery/v2/events.json?apikey=1f2AwjK2AAERSzyWIP5MWX9nLRXGFLGZ&latlong="+latlon,
       async:true,
       dataType: "json",
       success: function(json) {
