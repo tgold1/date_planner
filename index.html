@@ -10,13 +10,43 @@
 </head>
 <body>
 <header>
-   
+   <h1>Choose Restaurant</h1>
 
 </header>
 
-<div id="map"></div>
+<main class="container">
+<div>
+    <div id="map"></div>
 <input id="search" type="text" placeholder="Search for a location" />
 <button id="search-btn" onclick="searchNearby()">Search Nearby</button>
+
+</div>
+
+
+
+<div class="dropdown is-hoverable">
+    <div class="dropdown-trigger">
+      <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
+        <span>Choose Radius</span>
+        <span class="icon is-small">
+          <i class="fas fa-angle-down" aria-hidden="true"></i>
+        </span>
+      </button>
+    </div>
+    <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+      <div class="dropdown-content">
+        <div class="dropdown-item">
+          <ul>
+            <li><button class="radius" id="less than 1">Less than 1 mile</button></li>
+            <li></li><button class="radius" id="1-2">1 - 2 miles</button></li>
+            <li></li><button class="radius" id="2+">2 + miles</button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
 
 
 
