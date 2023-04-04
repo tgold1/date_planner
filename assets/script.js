@@ -19,5 +19,18 @@ function initMap() {
   });
 }
 
+function getTicketmaster () {
+    var apiUrl = "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=1f2AwjK2AAERSzyWIP5MWX9nLRXGFLGZ"
+    
+    fetch (apiUrl) 
+        .then (function (response){
+            return response.json ()
+        })
+        .then (function (data){
+            console.log (data)
+        }) 
+    
+}
+getTicketmaster ()
 
 // window.initMap = initMap;
