@@ -1,18 +1,10 @@
-/* 
- * Always set the map height explicitly to define the size of the div element
- * that contains the map. 
- */
-#map1 {
+
+#map {
   width: 350px;
   height: 350px;
   float: left;
 }
 
-#map2 {
-  width: 650px;
-  height: 350px;
-  float: left;
-}
 
 #search {
   margin: 10px;
@@ -21,9 +13,6 @@
   font-size: 16px;
 }
 
-/* 
-   * Optional: Makes the sample page fill the window. 
-   */
 html,
 body {
   height: 50%;
