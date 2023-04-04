@@ -12,12 +12,12 @@
     <link rel="stylesheet" href="./assets/css/styles.css">
 
 </header>
- <div>
-    <div class="">
-        <h2 class="subtitle">Showing events in your area: <span id="repo-search-term"></span></h2>
-        <div id="repos-container" class="list-group"></div>
-      </div>
- </div>   
+
+<div id="map1"></div>
+
+<div id="map2"></div>
+    
+<input id="search" type="text" placeholder="Search for a location" />
 
 
 
@@ -26,9 +26,22 @@
 
 
 
-
-
-
-</body>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="./assets/script.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBR3HZvqE1Tvhovt2eUHH50ywvZ0j3tQw&callback=initMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBR3HZvqE1Tvhovt2eUHH50ywvZ0j3tQw&callback=initMap2"></script>
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBR3HZvqE1Tvhovt2eUHH50ywvZ0j3tQw&callback=initMap&libraries=places"
+  async
+  defer
+></script>
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBR3HZvqE1Tvhovt2eUHH50ywvZ0j3tQw&callback=initMap2&libraries=places"
+  async
+  defer
+></script>
 <script href="./assets/script.js"></script>
+</body>
+
 </html>
