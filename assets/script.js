@@ -1,41 +1,69 @@
-// let map;
-
-// async function initMap() {
-//   // The location of Uluru
-//   const position = { lat: -25.344, lng: 131.031 };
-//   // Request needed libraries.
-//   //@ts-ignore
-//   const { Map } = await google.maps.importLibrary("maps");
-//   const { AdvancedMarkerView } = await google.maps.importLibrary("marker");
-
-//   // The map, centered at Uluru
-//   map = new Map(document.getElementById("map"), {
-//     zoom: 4,
-//     center: position,
-//     mapId: "DEMO_MAP_ID",
-//   });
-
-//   // The marker, positioned at Uluru
-//   const marker = new AdvancedMarkerView({
-//     map: map,
-//     position: position,
-//     title: "Uluru",
-//   });
-// }
-
-// initMap();
-
-let map;
-
 function initMap() {
-  var { Map } = google.maps;
+  var {Map, places} = google.maps;
 
-  map = new Map(document.getElementById("map"), {
+  var map1 = new Map(document.getElementById("map1"), {
     center: { lat: -34.397, lng: 150.644 },
     zoom: 8,
   });
+
+  var searchInput = document.getElementById("search");
+  var autocomplete = new places.Autocomplete(searchInput);
+
+  autocomplete.addListener("place_changed", () => {
+    var place = autocomplete.getPlace();
+    if (place.geometry) {
+      map1.panTo(place.geometry.location);
+      map1.setZoom(15);
+    }
+    window.initMap = initMap;
+  });
 }
 
-window.onload = function() {
-  initMap();
-};
+function initMap2() {
+  var {Map, places} = google.maps;
+
+  var map2 = new Map(document.getElementById("map2"), {
+    center: { lat: -32.397, lng: 152.644},
+    zoom: 10,
+  });
+
+  autocomplete.addListener("place_changed", () => {
+    var place = autocomplete.getPlace();
+    if (place.geometry) {
+      map2.panTo(place.geometry.location);
+      map2.setZoom(15);
+    }
+    window.initMap = initMap;
+  });
+}
+
+
+
+// function initMap() {
+//   var {Map, places} = google.maps;
+
+//   var map2 = new Map(document.getElementById("map2"), {
+//     center: { lat: -34.397, lng: 150.644 },
+//     zoom: 8,
+//   });
+
+//   var searchInput = document.getElementById("search");
+//   var autocomplete = new places.Autocomplete(searchInput);
+
+//   autocomplete.addListener("place_changed", () => {
+//     var place = autocomplete.getPlace();
+//     if (place.geometry) {
+//       map2.panTo(place.geometry.location);
+//       map2.setZoom(10);
+
+//       new google.maps.Marker({
+//         position: myLatLng,
+//         map2,
+//         title: "Hello World!",
+//       });
+//     }
+    
+//     window.initMap = initMap;
+    
+//   });
+// }
