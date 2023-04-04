@@ -25,17 +25,17 @@
 
 // initMap();
 
-const loader = new Loader({
-    apiKey: "YAIzaSyBBR3HZvqE1Tvhovt2eUHH50ywvZ0j3tQw",
-    version: "weekly",
-    ...additionalOptions,
+let map;
+
+function initMap() {
+  var { Map } = google.maps;
+
+  map = new Map(document.getElementById("map"), {
+    center: { lat: -34.397, lng: 150.644 },
+    zoom: 8,
   });
-  
-  loader.load().then(async () => {
-    const { Map } = await google.maps.importLibrary("maps");
-  
-    map = new Map(document.getElementById("map"), {
-      center: { lat: -34.397, lng: 150.644 },
-      zoom: 8,
-    });
-  });
+}
+
+window.onload = function() {
+  initMap();
+};
