@@ -1,6 +1,7 @@
 var submitButton = document.querySelector("#submit");
 var cityName = document.querySelector("#city-search");
-var ulElement = document.querySelector(".event-list")
+var ulElement = document.querySelector(".event-list");
+var googleLocation = document.querySelector(".location");
 
 
 function getData(){
@@ -32,6 +33,7 @@ var apiUrl = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + cit
           console.log(arrayItems)
           for (var i = 0; i < arrayItems.length; i++) {
             var buttonElement = document.createElement("button");
+            buttonElement.setAttribute("class", "location")
             var liElement = document.createElement("li");
 
             buttonElement.textContent = (arrayItems[i]);
