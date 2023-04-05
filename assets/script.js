@@ -36,15 +36,105 @@ function initMap() {
 }
 window.initMap = initMap;
 
-function getTicketmaster () {
-    var apiUrl = "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=1f2AwjK2AAERSzyWIP5MWX9nLRXGFLGZ"
+var savedLocation = document.getElementById("saved");
+var isFirstSearch = true;
+var firstSearchedLocation = "";
+
+
+function searchNearby() {
+  var { Map } = google.maps;
+  var map = new Map(document.getElementById("map"), {
+    center: {lat: -34.397, lng: 150.644},
+    zoom: 5,
+  });
+
+  var location = map.getCenter();
+
+  var radius = document.querySelector(".dropdown-item .is-active").id;
+  switch (radius) {
+    case "less-than-1":
+      radius = 1609; // 1 mile = 1609 meters
+      break;
+    case "1-2":
+      radius = 3219; // 2 miles = 3219 meters
+      break;
+    case "2+":
+      radius = 4828; // 3 miles = 4828 meters
+      break;
+    default:
+      radius = 1609; // Default radius is 1 mile
+  }
+
+  function addEventListener() {
+    $("radius").on("click", function() {
+      radius = $(this).attr('id');
+      switch (radius) {
+        case "less-than-1":
+        radius = 1609; // 1 mile = 1609 meters
+        break;
+      case "1-2":
+        radius = 3219; // 2 miles = 3219 meters
+        break;
+      case "2+":
+        radius = 4828; // 3 miles = 4828 meters
+        break;
+      default:
+        radius = 1609; // Default radius is 1 mile
+      }
+      console.log(radius);
+      searchNearby();
+    });
+  }
+
+  var request = {
+    location: location,
+    radius: radius,
+    type: ["restaurant"],
+  }
+
+  var service = new google.maps.places.PlacesService(map);
+  service.nearbySearch(request, function (results, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+      for (var i = 0; i < results.length; i++) {
+        var place = results[i];
+        var marker = new google.maps.Marker({
+          position: place.geometry.location,
+          map: map,
+          title: place.name,
+        });
+
+        google.maps.event.addListener(marker, "click", function () {
+          var contentString =
+            "<h3>" + place.name + "</h3>" + "<p>" + place.vicinity + "</p>";
+          var infowindow = new google.maps.InfoWindow({
+            content: contentString,
+          });
+          infowindow.open(map, marker);
+        });
+      }
+      
+      if (isFirstSearch) {
+        firstSearchedLocation = results[0].name;
+        savedLocation.innerText = `First searched location: ${firstSearchedLocation}`;
+        console.log(`First searched location: ${firstSearchedLocation}`);
+        isFirstSearch = false;
+      }
+      
+    } else {
+      console.log("Nearby search failed. Status: ", status);
+    }
+  });
+}
+
+// function getTicketmaster () {
+//     var apiUrl = "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=1f2AwjK2AAERSzyWIP5MWX9nLRXGFLGZ"
     
-    fetch (apiUrl) 
-        .then (function (response){
-            return response.json ();
-        })
-        .then (function (data){
-            console.log (data);
+//     fetch (apiUrl) 
+//         .then (function (response){
+//             return response.json ();
+//         })
+//         .then (function (data){
+//             console.log (data);
 
             // data._embedded.events.forEach(function(event) {
               
@@ -55,70 +145,70 @@ function getTicketmaster () {
             //     title: event.name
             //   });
             // });
-        }) ;
+//         }) ;
     
-}
-getTicketmaster ()
+// }
+// getTicketmaster ()
 
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
-    } else {
-        var x = document.getElementById("location");
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
-}
-
-
-function showError(error) {
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            x.innerHTML = "User denied the request for Geolocation."
-            break;
-        case error.POSITION_UNAVAILABLE:
-            x.innerHTML = "Location information is unavailable."
-            break;
-        case error.TIMEOUT:
-            x.innerHTML = "The request to get user location timed out."
-            break;
-        case error.UNKNOWN_ERROR:
-            x.innerHTML = "An unknown error occurred."
-            break;
-    }
-}
-
-// window.initMap = initMap;
-function showPosition(position) {
-    var x = document.getElementById("location");
-    x.innerHTML = "Latitude: " + position.coords.latitude + 
-    "<br>Longitude: " + position.coords.longitude; 
-    var latlon = position.coords.latitude + "," + position.coords.longitude;
+// function getLocation() {
+//     if (navigator.geolocation) {
+//         navigator.geolocation.getCurrentPosition(showPosition, showError);
+//     } else {
+//         var x = document.getElementById("location");
+//         x.innerHTML = "Geolocation is not supported by this browser.";
+//     }
+// }
 
 
-    $.ajax({
-      type:"GET",
-      url:"https://app.ticketmaster.com/discovery/v2/events.json?apikey=1f2AwjK2AAERSzyWIP5MWX9nLRXGFLGZ&latlong="+latlon,
-      async:true,
-      dataType: "json",
-      success: function(json) {
-                  console.log(json);
-                  var e = document.getElementById("events");
-                  e.innerHTML = json.page.totalElements + " events found.";
-                  showEvents(json);
-                  initMap(position, json);
-               },
-      error: function(xhr, status, err) {
-                  console.log(err);
-               }
-    });
+// function showError(error) {
+//     switch(error.code) {
+//         case error.PERMISSION_DENIED:
+//             x.innerHTML = "User denied the request for Geolocation."
+//             break;
+//         case error.POSITION_UNAVAILABLE:
+//             x.innerHTML = "Location information is unavailable."
+//             break;
+//         case error.TIMEOUT:
+//             x.innerHTML = "The request to get user location timed out."
+//             break;
+//         case error.UNKNOWN_ERROR:
+//             x.innerHTML = "An unknown error occurred."
+//             break;
+//     }
+// }
 
-}
+// // window.initMap = initMap;
+// function showPosition(position) {
+//     var x = document.getElementById("location");
+//     x.innerHTML = "Latitude: " + position.coords.latitude + 
+//     "<br>Longitude: " + position.coords.longitude; 
+//     var latlon = position.coords.latitude + "," + position.coords.longitude;
 
-function showEvents(json) {
-    for(var i=0; i<json.page.size; i++) {
-      $("#events").append("<p>"+json._embedded.events[i].name+"</p>");
-    }
-  }
+
+//     $.ajax({
+//       type:"GET",
+//       url:"https://app.ticketmaster.com/discovery/v2/events.json?apikey=1f2AwjK2AAERSzyWIP5MWX9nLRXGFLGZ&latlong="+latlon,
+//       async:true,
+//       dataType: "json",
+//       success: function(json) {
+//                   console.log(json);
+//                   var e = document.getElementById("events");
+//                   e.innerHTML = json.page.totalElements + " events found.";
+//                   showEvents(json);
+//                   initMap(position, json);
+//                },
+//       error: function(xhr, status, err) {
+//                   console.log(err);
+//                }
+//     });
+
+// }
+
+// function showEvents(json) {
+//     for(var i=0; i<json.page.size; i++) {
+//       $("#events").append("<p>"+json._embedded.events[i].name+"</p>");
+//     }
+//   }
   
   
   // function initMap(position, json) {
@@ -132,11 +222,11 @@ function showEvents(json) {
   //   }
   // }
   
-  function addMarker(map, event) {
-    var marker = new google.maps.Marker({
-      position: new google.maps.LatLng(event._embedded.venues[0].location.latitude, event._embedded.venues[0].location.longitude),
-      map: map
-    });
-    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
-    console.log(marker);
-  }
+  // function addMarker(map, event) {
+  //   var marker = new google.maps.Marker({
+  //     position: new google.maps.LatLng(event._embedded.venues[0].location.latitude, event._embedded.venues[0].location.longitude),
+  //     map: map
+  //   });
+  //   marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+  //   console.log(marker);
+  // }
