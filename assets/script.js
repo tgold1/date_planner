@@ -1,5 +1,6 @@
 var submitButton = document.querySelector("#submit");
 var cityName = document.querySelector("#city-search");
+var ulElement = document.querySelector(".event-list")
 
 
 function getData(){
@@ -15,12 +16,29 @@ var apiUrl = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + cit
         //getting name of venue for event in searched city
         .then (function (data){
           console.log(data._embedded.events.length)
+          console.log(data._embedded.events)
+          var arrayItems = []
           for (var i = 0; i < data._embedded.events.length - 1; i++) {
-            //logging venue name, Event Type, and Subgenre.
-             console.log (data._embedded.events[i]._embedded.venues[0].name + ": " + data._embedded.events[i].classifications[0].segment.name + ": " + data._embedded.events[i].classifications[0].subGenre.name)
+            // if any of the below fields are missing, loop will fail
+            arrayItems.push(data._embedded.events[i]._embedded.venues[0].name + ": " + data._embedded.events[i].classifications[0].segment.name + ": " + data._embedded.events[i].classifications[0].subGenre.name)
 
+            //logging venue name, Event Type, and Subgenre.
+            //  console.log (data._embedded.events[i]._embedded.venues[0].name + ": " + data._embedded.events[i].classifications[0].segment.name + ": " + data._embedded.events[i].classifications[0].subGenre.name)
+             var event =(data._embedded.events[i]._embedded.venues[0].name + ": " + data._embedded.events[i].classifications[0].segment.name + ": " + data._embedded.events[i].classifications[0].subGenre.name)
+             console.log(event)
+
+          
           }
-          console.log (data)
+          console.log(arrayItems)
+          for (var i = 0; i < arrayItems.length; i++) {
+            var buttonElement = document.createElement("button");
+            var liElement = document.createElement("li");
+
+            buttonElement.textContent = (arrayItems[i]);
+
+          liElement.appendChild(buttonElement)
+            ulElement.appendChild(liElement)
+          }
             
         })
       }
