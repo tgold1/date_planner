@@ -4,6 +4,9 @@ var ulElement = document.querySelector(".event-list");
 var googleLocation = document.querySelector(".location");
 
 
+
+      
+
 function getData(){
   
   var cityText = cityName.value;
@@ -30,7 +33,7 @@ var apiUrl = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + cit
 
           
           }
-          console.log(arrayItems)
+          
           for (var i = 0; i < arrayItems.length; i++) {
             var buttonElement = document.createElement("button");
             buttonElement.setAttribute("class", "location")
@@ -40,10 +43,22 @@ var apiUrl = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + cit
 
           liElement.appendChild(buttonElement)
             ulElement.appendChild(liElement)
+
+            buttonElement.addEventListener("click", setLocation)
+          
+              
           }
-            
-        })
-      }
+          
+         
+          
+          })
+          }
+         
+function setLocation (){
+  console.log("hi")
+}
+
+  
 var map;
 
 function initMap() {
@@ -128,6 +143,10 @@ window.initMap = initMap;
 
 
 submitButton.addEventListener("click", getData)
+
+            
+  
+
 
 
 
