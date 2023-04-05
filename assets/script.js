@@ -65,7 +65,7 @@ function initMap() {
             position: place.geometry.location,
             title: place.name
           });
-          
+
           (function(marker, place) {
             marker.addListener("click", () => {
               infoWindow.setContent(place.name);
