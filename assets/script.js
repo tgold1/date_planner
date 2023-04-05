@@ -1,9 +1,11 @@
 
+var map;
+
 function initMap() {
   var {Map, places} = google.maps;
   var Marker = google.maps.Marker;
 
-  var map = new Map(document.getElementById("map"), {
+  map = new Map(document.getElementById("map"), {
     center: { lat: -34.397, lng: 150.644 },
     zoom: 8,
   });
@@ -28,103 +30,178 @@ function initMap() {
       marker.addListener("click", () => {
         infoWindow.setContent(place.name);
         infoWindow.open(map, marker);
+        console.log(place.name);
+        var eventName = place.name
+        console.log(eventName);
+      });
+
+      var geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ address: searchInput.value }, function(results, status) {
+        if (status === "OK") {
+          var latLng = results[0].geometry.location;
+          console.log("latitude: ", latLng.lat());
+          console.log("Longitude: ", latLng.lng());
+        } else {
+          console.error("geocode not successful", status);
+        }
       });
     }
 
+      var request = {
+      location: map.getCenter(),
+      radius: 500,
+      type: "restaurant",
+};
+  
+    var service = new places.PlacesService(map);
+
+  
+    service.nearbySearch(request, (results, status) => {
+      if (status === places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+          var place = results[i];
+          var marker = new google.maps.Marker({
+            map: map,
+            position: place.geometry.location,
+            title: place.name
+          });
+
+          (function(marker, place) {
+            marker.addListener("click", () => {
+              infoWindow.setContent(place.name);
+              infoWindow.open(map, marker);
+              console.log(place.name);
+            });
+          })(marker, place);
+        }
+      }
+    });
   });
-  // window.initMap = initMap;
 }
+
 window.initMap = initMap;
 
-var savedLocation = document.getElementById("saved");
-var isFirstSearch = true;
-var firstSearchedLocation = "";
+// function searchNearby() {
+//   var {Map, places} = google.maps;
+//   console.log("hi there");
+//   var map = new Map(document.getElementById("map"));
+  
+
+//   var request = {
+//     location: map.getCenter(),
+//     radius: 500,
+//     type: "restaurant"
+//   };
+
+//   var service = new places.PlacesService(map);
+
+//   service.nearbySearch(request, (results, status) => {
+//     if (status === places.PlacesServiceStatus.OK) {
+//       // display search results on page? 
+//       for (var i = 0; i < results.length; i++) {
+//         var place = results[i];
+//         var marker = new google.maps.Marker({
+//           map: map,
+//           position: place.geometry.location,
+//           title: place.name
+//         });
+//       }
+//     }
+//   });
+// }
 
 
-function searchNearby() {
-  var { Map } = google.maps;
-  var map = new Map(document.getElementById("map"), {
-    center: {lat: -34.397, lng: 150.644},
-    zoom: 5,
-  });
 
-  var location = map.getCenter();
 
-  var radius = document.querySelector(".dropdown-item .is-active").id;
-  switch (radius) {
-    case "less-than-1":
-      radius = 1609; // 1 mile = 1609 meters
-      break;
-    case "1-2":
-      radius = 3219; // 2 miles = 3219 meters
-      break;
-    case "2+":
-      radius = 4828; // 3 miles = 4828 meters
-      break;
-    default:
-      radius = 1609; // Default radius is 1 mile
-  }
+// var savedLocation = document.getElementById("saved");
+// var isFirstSearch = true;
+// var firstSearchedLocation = "";
 
-  function addEventListener() {
-    $("radius").on("click", function() {
-      radius = $(this).attr('id');
-      switch (radius) {
-        case "less-than-1":
-        radius = 1609; // 1 mile = 1609 meters
-        break;
-      case "1-2":
-        radius = 3219; // 2 miles = 3219 meters
-        break;
-      case "2+":
-        radius = 4828; // 3 miles = 4828 meters
-        break;
-      default:
-        radius = 1609; // Default radius is 1 mile
-      }
-      console.log(radius);
-      searchNearby();
-    });
-  }
 
-  var request = {
-    location: location,
-    radius: radius,
-    type: ["restaurant"],
-  }
+// function searchNearby() {
+//   var { Map } = google.maps;
+//   var map = new Map(document.getElementById("map"), {
+//     center: {lat: -34.397, lng: 150.644},
+//     zoom: 5,
+//   });
 
-  var service = new google.maps.places.PlacesService(map);
-  service.nearbySearch(request, function (results, status) {
-    if (status == google.maps.places.PlacesServiceStatus.OK) {
-      for (var i = 0; i < results.length; i++) {
-        var place = results[i];
-        var marker = new google.maps.Marker({
-          position: place.geometry.location,
-          map: map,
-          title: place.name,
-        });
+//   var location = map.getCenter();
 
-        google.maps.event.addListener(marker, "click", function () {
-          var contentString =
-            "<h3>" + place.name + "</h3>" + "<p>" + place.vicinity + "</p>";
-          var infowindow = new google.maps.InfoWindow({
-            content: contentString,
-          });
-          infowindow.open(map, marker);
-        });
-      }
+//   var radius = document.querySelector(".dropdown-item .is-active").id;
+//   switch (radius) {
+//     case "less-than-1":
+//       radius = 1609; // 1 mile = 1609 meters
+//       break;
+//     case "1-2":
+//       radius = 3219; // 2 miles = 3219 meters
+//       break;
+//     case "2+":
+//       radius = 4828; // 3 miles = 4828 meters
+//       break;
+//     default:
+//       radius = 1609; // Default radius is 1 mile
+//   }
+
+//   function addEventListener() {
+//     $("radius").on("click", function() {
+//       radius = $(this).attr('id');
+//       switch (radius) {
+//         case "less-than-1":
+//         radius = 1609; // 1 mile = 1609 meters
+//         break;
+//       case "1-2":
+//         radius = 3219; // 2 miles = 3219 meters
+//         break;
+//       case "2+":
+//         radius = 4828; // 3 miles = 4828 meters
+//         break;
+//       default:
+//         radius = 1609; // Default radius is 1 mile
+//       }
+//       console.log(radius);
+//       searchNearby();
+//     });
+//   }
+
+//   var request = {
+//     location: location,
+//     radius: radius,
+//     type: ["restaurant"],
+//   }
+
+//   var service = new google.maps.places.PlacesService(map);
+//   service.nearbySearch(request, function (results, status) {
+//     if (status == google.maps.places.PlacesServiceStatus.OK) {
+//       for (var i = 0; i < results.length; i++) {
+//         var place = results[i];
+//         var marker = new google.maps.Marker({
+//           position: place.geometry.location,
+//           map: map,
+//           title: place.name,
+//         });
+
+//         google.maps.event.addListener(marker, "click", function () {
+//           var contentString =
+//             "<h3>" + place.name + "</h3>" + "<p>" + place.vicinity + "</p>";
+//           var infowindow = new google.maps.InfoWindow({
+//             content: contentString,
+//           });
+//           infowindow.open(map, marker);
+//         });
+//       }
       
-      if (isFirstSearch) {
-        firstSearchedLocation = results[0].name;
-        savedLocation.innerText = `First searched location: ${firstSearchedLocation}`;
-        console.log(`First searched location: ${firstSearchedLocation}`);
-        isFirstSearch = false;
-      }
+//       if (isFirstSearch) {
+//         firstSearchedLocation = results[0].name;
+//         savedLocation.innerText = `First searched location: ${firstSearchedLocation}`;
+//         console.log(`First searched location: ${firstSearchedLocation}`);
+//         isFirstSearch = false;
+//       }
       
-    } else {
-      console.log("Nearby search failed. Status: ", status);
-    }
-  });
-}
+//     } else {
+//       console.log("Nearby search failed. Status: ", status);
+//     }
+//   });
+// }
 
 // function getTicketmaster () {
 //     var apiUrl = "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=1f2AwjK2AAERSzyWIP5MWX9nLRXGFLGZ"
