@@ -18,10 +18,11 @@
 <div>
     <div id="map"></div>
 <input id="search" type="text" placeholder="Search for a location" />
-<button id="search-btn" onclick="searchNearby()">Search Nearby</button>
+<button id="search-btn">Search Nearby</button>
 
 </div>
 
+<section class="saved-location" id="saved"> </section>
 
 
 <div class="dropdown is-hoverable">
@@ -37,9 +38,9 @@
       <div class="dropdown-content">
         <div class="dropdown-item">
           <ul>
-            <li><button class="radius" id="less than 1">Less than 1 mile</button></li>
-            <li></li><button class="radius" id="1-2">1 - 2 miles</button></li>
-            <li></li><button class="radius" id="2+">2 + miles</button></li>
+            <li><button class="radius is-active" id="less-than-1">Less than 1 mile</button></li>
+            <li><button class="radius" id="1-2">1 - 2 miles</button></li>
+            <li><button class="radius" id="2+">2 + miles</button></li>
           </ul>
         </div>
       </div>
@@ -60,11 +61,13 @@
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="./assets/script.js"></script>
 <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBR3HZvqE1Tvhovt2eUHH50ywvZ0j3tQw&libraries=places&callback=initMap,initMap2"></script> -->
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBR3HZvqE1Tvhovt2eUHH50ywvZ0j3tQw&callback=initMap"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBR3HZvqE1Tvhovt2eUHH50ywvZ0j3tQw&libraries=places&callback=initMap"></script>
+
 </body>
 
 </html>
