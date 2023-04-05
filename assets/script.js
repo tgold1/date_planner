@@ -1,19 +1,22 @@
-var submitButton = document.querySelector("#submit")
-console.log(submitButton)
+var submitButton = document.querySelector("#submit");
+var cityName = document.querySelector("#city-search");
+
 
 function getData(){
-  console.log("hi")
-var apiUrl = "https://app.ticketmaster.com/discovery/v2/events.json?city=Chicago&onsaleOnStartDate=2023-04-05&apikey=1f2AwjK2AAERSzyWIP5MWX9nLRXGFLGZ"
+  
+  var cityText = cityName.value;
+
+var apiUrl = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + cityText + "&onsaleOnStartDate=2023-04-07&apikey=1f2AwjK2AAERSzyWIP5MWX9nLRXGFLGZ"
     
     fetch (apiUrl) 
         .then (function (response){
             return response.json ();
         })
-        //getting name of venue for event in chicago
+        //getting name of venue for event in searched city
         .then (function (data){
           console.log(data._embedded.events.length)
           for (var i = 0; i < data._embedded.events.length - 1; i++) {
-            
+            //logging venue name, Event Type, and Subgenre.
              console.log (data._embedded.events[i]._embedded.venues[0].name + ": " + data._embedded.events[i].classifications[0].segment.name + ": " + data._embedded.events[i].classifications[0].subGenre.name)
 
           }
@@ -92,7 +95,8 @@ function initMap() {
             marker.addListener("click", () => {
               infoWindow.setContent(place.name);
               infoWindow.open(map, marker);
-              console.log(place.name);
+              console.log(place.name + ": " + place.types[0]);
+              
             });
           })(marker, place);
         }
