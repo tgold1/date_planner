@@ -2,6 +2,7 @@ var submitButton = document.querySelector("#submit");
 var cityName = document.querySelector("#city-search");
 var ulElement = document.querySelector(".event-list");
 var googleLocation = document.querySelector(".location");
+var selectedVenueEl = document.querySelector(".selected-venue")
 
 
 
@@ -63,7 +64,8 @@ var apiUrl = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + cit
             
             var buttonText = event.target.textContent;
             console.log(buttonText);
-              
+            
+            selectedVenueEl.textContent = buttonText;
             
           }
           
@@ -74,9 +76,13 @@ var apiUrl = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + cit
   
 var map;
 
+
 function initMap() {
   var {Map, places} = google.maps;
   var Marker = google.maps.Marker;
+
+  var restaurantList = document.getElementById("restaurantList");
+  var selectedRestaurant = document.querySelector(".selected-restaurant");
 
   map = new Map(document.getElementById("map"), {
     center: { lat: -34.397, lng: 150.644 },
@@ -87,6 +93,8 @@ function initMap() {
   var autocomplete = new places.Autocomplete(searchInput);
 
   var infoWindow = new google.maps.InfoWindow();
+
+  var lastClickedMarker;
 
   autocomplete.addListener("place_changed", () => {
     var place = autocomplete.getPlace();
@@ -106,17 +114,6 @@ function initMap() {
         console.log(place.name);
         var eventName = place.name
         console.log(eventName);
-      });
-
-      var geocoder = new google.maps.Geocoder();
-      geocoder.geocode({ address: searchInput.value }, function(results, status) {
-        if (status === "OK") {
-          var latLng = results[0].geometry.location;
-          console.log("latitude: ", latLng.lat());
-          console.log("Longitude: ", latLng.lng());
-        } else {
-          console.error("geocode not successful", status);
-        }
       });
     }
 
@@ -144,7 +141,10 @@ function initMap() {
               infoWindow.setContent(place.name);
               infoWindow.open(map, marker);
               console.log(place.name + ": " + place.types[0]);
-              
+
+              lastClickedMarker = place.name;
+              selectedRestaurant.textContent = lastClickedMarker;
+
             });
           })(marker, place);
         }
