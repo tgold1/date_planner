@@ -44,3 +44,16 @@ body {
 flex-direction: column-reverse;
 margin: 20px 0px 0px 0px;
 }
+
+@media screen and (max-width: 768px) {
+  #map {
+    height: 400px;
+  }
+}
+
+@media screen and (max-width: 408px) {
+  #map {
+    height: 300px;
+    width: 300px;
+  }
+}
