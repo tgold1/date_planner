@@ -123,6 +123,22 @@ function initMap() {
         console.log(eventName);
       });
     }
+    document.getElementById("saveDateBtn").addEventListener("click", function () {
+      var selectedRestaurant = document.querySelector(".selected-restaurant");
+      var selectedVenue = document.querySelector(".selected-venue");
+
+      if (selectedRestaurant && selectedVenue) {
+        var restaurantText = selectedRestaurant.textContent;
+        var venueText = selectedVenue.textContent;
+
+        localStorage.setItem("selectedRestaurant", restaurantText);
+        localStorage.setItem("selectedVenue", venueText);
+
+        alert("Date Saved!");
+      } else {
+        alert("Error: select a restaurant or venue");
+      }
+    });
 
       var request = {
       location: map.getCenter(),
