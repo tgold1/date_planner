@@ -5,8 +5,6 @@ var googleLocation = document.querySelector(".location");
 
 
 
-      
-
 function getData(){
   
   var cityText = cityName.value;
@@ -22,14 +20,16 @@ var apiUrl = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + cit
           console.log(data._embedded.events.length)
           console.log(data._embedded.events)
           var arrayItems = []
+          var arraySearch = []
           for (var i = 0; i < data._embedded.events.length - 1; i++) {
             // if any of the below fields are missing, loop will fail
-            arrayItems.push(data._embedded.events[i]._embedded.venues[0].name + ": " + data._embedded.events[i].classifications[0].segment.name + ": " + data._embedded.events[i].classifications[0].subGenre.name)
-
+            arrayItems.push("Venue: " + data._embedded.events[i]._embedded.venues[0].name + " Genre: " + data._embedded.events[i].classifications[0].segment.name + " SubGenre: " + data._embedded.events[i].classifications[0].subGenre.name)
+            arraySearch.push(data._embedded.events[i]._embedded.venues[0].name + ", " + cityText)
             //logging venue name, Event Type, and Subgenre.
             //  console.log (data._embedded.events[i]._embedded.venues[0].name + ": " + data._embedded.events[i].classifications[0].segment.name + ": " + data._embedded.events[i].classifications[0].subGenre.name)
-             var event =(data._embedded.events[i]._embedded.venues[0].name + ": " + data._embedded.events[i].classifications[0].segment.name + ": " + data._embedded.events[i].classifications[0].subGenre.name)
+             var event =(data._embedded.events[i]._embedded.venues[0].name + ", " + cityText)
              console.log(event)
+             
 
           
           }
@@ -44,20 +44,33 @@ var apiUrl = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + cit
           liElement.appendChild(buttonElement)
             ulElement.appendChild(liElement)
 
-            buttonElement.addEventListener("click", setLocation)
+            
+            buttonElement.addEventListener("click", function(event){
+              setLocation(event);
+            });
           
               
           }
+          function setLocation (event){
+            
+            // var {Map, places} = google.maps;
+            // var Marker = google.maps.Marker;
           
-         
-          
-          })
+            // map = new Map(document.getElementById("map"), {
+            //   center: { lat: -34.397, lng: 150.644 },
+            //   zoom: 8,
+            // });
+            
+            var buttonText = event.target.textContent;
+            console.log(buttonText);
+              
+            
           }
-         
-function setLocation (){
-  console.log("hi")
+          
+          
+          }
+        )
 }
-
   
 var map;
 
