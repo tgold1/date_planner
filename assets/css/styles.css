@@ -2,7 +2,7 @@
 #map {
   width: 400px;
   height: 400px;
-  float: right;
+  float: left;
   margin-top: 15px;
   margin-right: 15px;
   display: flex;
@@ -19,7 +19,6 @@ h1 {
   padding: 20px;
   font-size: 50px;
 }
-
 
 #search {
   margin: 10px;
@@ -40,7 +39,7 @@ body {
 }
 
 .container {
-  display: flex;
+display: flex;
 flex-direction: column-reverse;
 margin: 20px 0px 0px 0px;
 }
@@ -53,7 +52,7 @@ margin: 20px 0px 0px 0px;
 
 @media screen and (max-width: 408px) {
   #map {
-    height: 300px;
-    width: 300px;
+    height: 100px;
+    width: 100px;
   }
 }
