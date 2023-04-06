@@ -20,12 +20,15 @@ var apiUrl = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + cit
         .then (function (data){
           console.log(data._embedded.events.length)
           console.log(data._embedded.events)
+          console.log(data)
           var arrayItems = []
           var arraySearch = []
+          var arrayLinks = []
           for (var i = 0; i < data._embedded.events.length - 1; i++) {
             // if any of the below fields are missing, loop will fail
             arrayItems.push("Venue: " + data._embedded.events[i]._embedded.venues[0].name + " Genre: " + data._embedded.events[i].classifications[0].segment.name + " SubGenre: " + data._embedded.events[i].classifications[0].subGenre.name)
             arraySearch.push(data._embedded.events[i]._embedded.venues[0].name + ", " + cityText)
+            arrayLinks.push(data._embedded.events[i].url)
             //logging venue name, Event Type, and Subgenre.
             //  console.log (data._embedded.events[i]._embedded.venues[0].name + ": " + data._embedded.events[i].classifications[0].segment.name + ": " + data._embedded.events[i].classifications[0].subGenre.name)
              var event =(data._embedded.events[i]._embedded.venues[0].name + ", " + cityText)
@@ -34,15 +37,20 @@ var apiUrl = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + cit
 
           
           }
-          
+          console.log(arrayLinks)
           for (var i = 0; i < arrayItems.length; i++) {
             var buttonElement = document.createElement("button");
-            buttonElement.setAttribute("class", "location")
+            buttonElement.setAttribute("class", "location");
+            
             var liElement = document.createElement("li");
+            var aElement = document.createElement("a")
 
-            buttonElement.textContent = (arrayItems[i]);
+            
+            buttonElement.textContent = arrayItems[i];
+            aElement.setAttribute("href", arrayLinks[i]); 
 
-          liElement.appendChild(buttonElement)
+            aElement.appendChild(buttonElement)
+          liElement.appendChild(aElement)
             ulElement.appendChild(liElement)
 
             
