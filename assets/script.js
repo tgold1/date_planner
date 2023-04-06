@@ -1,4 +1,77 @@
+var submitButton = document.querySelector("#submit");
+var cityName = document.querySelector("#city-search");
+var ulElement = document.querySelector(".event-list");
+var googleLocation = document.querySelector(".location");
 
+
+
+function getData(){
+  
+  var cityText = cityName.value;
+
+var apiUrl = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + cityText + "&onsaleOnStartDate=2023-04-07&apikey=1f2AwjK2AAERSzyWIP5MWX9nLRXGFLGZ"
+    
+    fetch (apiUrl) 
+        .then (function (response){
+            return response.json ();
+        })
+        //getting name of venue for event in searched city
+        .then (function (data){
+          console.log(data._embedded.events.length)
+          console.log(data._embedded.events)
+          var arrayItems = []
+          var arraySearch = []
+          for (var i = 0; i < data._embedded.events.length - 1; i++) {
+            // if any of the below fields are missing, loop will fail
+            arrayItems.push("Venue: " + data._embedded.events[i]._embedded.venues[0].name + " Genre: " + data._embedded.events[i].classifications[0].segment.name + " SubGenre: " + data._embedded.events[i].classifications[0].subGenre.name)
+            arraySearch.push(data._embedded.events[i]._embedded.venues[0].name + ", " + cityText)
+            //logging venue name, Event Type, and Subgenre.
+            //  console.log (data._embedded.events[i]._embedded.venues[0].name + ": " + data._embedded.events[i].classifications[0].segment.name + ": " + data._embedded.events[i].classifications[0].subGenre.name)
+             var event =(data._embedded.events[i]._embedded.venues[0].name + ", " + cityText)
+             console.log(event)
+             
+
+          
+          }
+          
+          for (var i = 0; i < arrayItems.length; i++) {
+            var buttonElement = document.createElement("button");
+            buttonElement.setAttribute("class", "location")
+            var liElement = document.createElement("li");
+
+            buttonElement.textContent = (arrayItems[i]);
+
+          liElement.appendChild(buttonElement)
+            ulElement.appendChild(liElement)
+
+            
+            buttonElement.addEventListener("click", function(event){
+              setLocation(event);
+            });
+          
+              
+          }
+          function setLocation (event){
+            
+            // var {Map, places} = google.maps;
+            // var Marker = google.maps.Marker;
+          
+            // map = new Map(document.getElementById("map"), {
+            //   center: { lat: -34.397, lng: 150.644 },
+            //   zoom: 8,
+            // });
+            
+            var buttonText = event.target.textContent;
+            console.log(buttonText);
+              
+            
+          }
+          
+          
+          }
+        )
+}
+  
 var map;
 
 function initMap() {
@@ -70,7 +143,8 @@ function initMap() {
             marker.addListener("click", () => {
               infoWindow.setContent(place.name);
               infoWindow.open(map, marker);
-              console.log(place.name);
+              console.log(place.name + ": " + place.types[0]);
+              
             });
           })(marker, place);
         }
@@ -78,8 +152,19 @@ function initMap() {
     });
   });
 }
-
 window.initMap = initMap;
+
+
+submitButton.addEventListener("click", getData)
+
+            
+  
+
+
+
+
+
+
 
 // function searchNearby() {
 //   var {Map, places} = google.maps;
